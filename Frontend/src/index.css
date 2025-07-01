@@ -1,0 +1,107 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  width: 100%;
+  color-scheme: light dark;
+  color: #f5f7fa;
+  background: none;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #8ecfff;
+  text-decoration: inherit;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #ffd166;
+}
+
+body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  background: linear-gradient(120deg, #18181c 0%, #3a0d1a 60%, #8b0000 100%);
+  min-height: 100vh;
+  min-width: 320px;
+  margin: 0;
+  padding: 0;
+  color: #f5f7fa;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button, .MuiButton-root {
+  background: linear-gradient(90deg, #ff1744 0%, #ffd166 100%);
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: 700;
+  font-size: 1.1em;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+button:hover, .MuiButton-root:hover {
+  background: linear-gradient(90deg, #ffd166 0%, #ff1744 100%);
+  color: #23243a !important;
+  transform: scale(1.07);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 3px solid #ffd166;
+}
+
+/* In index.css, to target only navbar buttons if needed */
+.navbar .MuiButton-root {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove background from navbar buttons */
+.MuiAppBar-root .MuiButton-root {
+  background: none !important;
+  box-shadow: none !important;
+  padding: 0.3em 0.8em;
+}
+
+.MuiAppBar-root .MuiButton-root:hover {
+  background: none !important;
+  color: #ffd166 !important;
+  font-size: 1.2em;
+}
+
+/* index.css */
+.MuiAppBar-root {
+  background: rgba(30, 30, 40, 0.85) !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px 0 rgba(139,0,0,0.4);
+}
+.MuiAppBar-root .MuiButton-root {
+  background: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+  transition: color 0.2s, font-size 0.2s;
+}
+.MuiAppBar-root .MuiButton-root:hover {
+  color: #ffd166 !important;
+  font-size: 1.7rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background: none;
+    width: 100%;
+  }
+  a:hover {
+    color: #ffd166;
+  }
+}
