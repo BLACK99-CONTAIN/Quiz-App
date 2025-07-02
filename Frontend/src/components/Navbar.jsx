@@ -49,12 +49,12 @@ const Navbar = () => {
               letterSpacing: 1,
               textShadow: '2px 2px 8px #000',
               mx: 2,
-              background: 'none', // remove any background
-              boxShadow: 'none',  // remove any shadow
+              background: 'none',
+              boxShadow: 'none', 
               '&:hover': {
                 color: '#ffd166',
                 fontSize: 34,
-                background: 'none', // ensure no background on hover
+                background: 'none', 
                 boxShadow: 'none',
               },
             }}

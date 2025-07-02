@@ -45,72 +45,78 @@ const Register = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, mx: 'auto', mt: 8, width: '100%' }}>
-      <Paper elevation={8} sx={{
-        p: { xs: 3, sm: 6 },
-        borderRadius: 6,
-        background: 'rgba(34,36,58,0.92)',
-        color: '#f5f7fa',
-        boxShadow: '0 12px 48px rgba(30,39,70,0.35)',
-        width: '100%',
-      }}>
-        <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700, color: '#ffd166' }}>
-          Register
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Username"
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-            InputProps={{ style: { color: '#fff' } }}
-          />
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-            InputProps={{ style: { color: '#fff' } }}
-          />
-          <TextField
-            select
-            label="Role"
-            name="role"
-            value={form.role}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            InputProps={{ style: { color: '#fff' } }}
-          >
-            <MenuItem value="User">User</MenuItem>
-            <MenuItem value="Admin">Admin</MenuItem>
-          </TextField>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2, mb: 1, fontWeight: 600, fontSize: 18 }}
-          >
+    <>
+      <Box>
+        <Paper
+          elevation={10}
+          sx={{
+            p: { xs: 3, sm: 6 },
+            borderRadius: 6,
+            background: "rgba(34,36,58,0.92)",
+            color: "#f5f7fa",
+            boxShadow: "0 12px 48px rgba(30,39,70,0.35)",
+            width: "100%",
+            maxWidth: 400,
+          }}
+        >
+          <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700, color: '#ffd166' }}>
             Register
-          </Button>
-        </form>
-        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-        <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Already have an account?{' '}
-          <Link component={RouterLink} to="/login" sx={{ color: '#ffd166' }}>
-            Login
-          </Link>
-        </Typography>
-      </Paper>
-    </Box>
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Username"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+              InputProps={{ style: { color: '#fff' } }}
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value={form.password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+              InputProps={{ style: { color: '#fff' } }}
+            />
+            <TextField
+              select
+              label="Role"
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              InputProps={{ style: { color: '#fff' } }}
+            >
+              <MenuItem value="User">User</MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
+            </TextField>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2, mb: 1, fontWeight: 600, fontSize: 18 }}
+            >
+              Register
+            </Button>
+          </form>
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+            Already have an account?{' '}
+            <Link component={RouterLink} to="/login" sx={{ color: '#ffd166' }}>
+              Login
+            </Link>
+          </Typography>
+        </Paper>
+      </Box>
+    </>
   );
 };
 

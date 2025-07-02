@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 
 export const generateQuizWithAI = async (req, res) => {
     const errors = validationResult(req);
@@ -8,13 +8,24 @@ export const generateQuizWithAI = async (req, res) => {
     }
     const { topic, numQuestions } = req.body;
     try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const prompt = `Generate ${numQuestions} multiple-choice questions about "${topic}". Each question must have 4 options and specify the correct answer index. Respond ONLY with a JSON array in this format: [{"questionText":"...","options":["...","...","...","..."],"correctAnswer":0}]. Do not include any explanation or text outside the JSON array.`;
 
-        const prompt = `Generate ${numQuestions} multiple-choice questions about "${topic}". Each question should have 4 options and specify the correct answer index. Respond ONLY with a JSON array: [{"questionText":"...","options":["...","...","...","..."],"correctAnswer":0}]`;
+        const response = await axios.post(
+            'https://api.sambanova.ai/v1/text/generate',
+            {
+                model: 'Meta-Llama-3.3-70B-Instruct', // <--- use the id from your list
+                prompt,
+                max_tokens: 1024
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${process.env.SAMBANOVA_API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
 
-        const result = await model.generateContent(prompt);
-        const aiContent = result.response.text().trim();
+        const aiContent = response.data.choices[0].text.trim();
 
         // Extract JSON array from the response
         let jsonStart = aiContent.indexOf('[');
@@ -23,12 +34,12 @@ export const generateQuizWithAI = async (req, res) => {
         if (jsonStart !== -1 && jsonEnd !== -1) {
             questions = JSON.parse(aiContent.substring(jsonStart, jsonEnd + 1));
         } else {
-            throw new Error("Gemini did not return a valid JSON array.");
+            throw new Error("SambaNova did not return a valid JSON array.");
         }
 
         res.json({ questions });
     } catch (error) {
-        console.error('AI generation error:', error.message, error.response?.data || '');
+        console.error('AI generation error:', error.message, error.response?.data || '', error.stack);
         res.status(500).json({ message: 'AI generation failed', error: error.message });
     }
 };
