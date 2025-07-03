@@ -41,13 +41,13 @@ const AdminQuizView = () => {
                   </Typography>
                 }
                 secondary={
-                  <Box>
+                  <span>
                     {q.options.map((opt, optIdx) => (
-                      <Typography key={optIdx} sx={{ ml: 2 }}>
+                      <Typography key={optIdx} sx={{ ml: 2 }} component="span" display="block">
                         {optIdx + 1}. {opt} {optIdx === q.correctAnswer && <b style={{ color: '#ffd166' }}> (Correct)</b>}
                       </Typography>
                     ))}
-                  </Box>
+                  </span>
                 }
               />
             </ListItem>
