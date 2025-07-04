@@ -1,12 +1,73 @@
-# React + Vite
+# Quiz App Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive React + Vite frontend for the Quiz App, featuring user and admin roles, quiz creation, quiz attempts, a chatbot, and a beautiful 4K-ready UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Authentication:** Register/Login as User or Admin
+- **Role-based UI:** Admins can create quizzes, users can attempt quizzes
+- **Quiz Management:** Create, view, and attempt quizzes
+- **Chatbot:** Post-quiz discussion powered by AI
+- **Responsive Design:** Looks great on all screens, including 4K
+- **Modern UI:** Green/white gradients, soft shadows, and bold typography
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, Vite, Material-UI (MUI)
+- **Routing:** React Router
+- **State:** React Context API
+
+---
+
+## ⚙️ Setup Instructions
+
+1. **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+2. **Start the development server**
+    ```bash
+    npm run dev
+    ```
+
+3. **Open the app**
+    - Visit [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📁 Project Structure
+
+```
+public/
+  admin-illustration.svg
+  illustration.svg
+src/
+  components/
+  context/
+  pages/
+  App.jsx
+  index.css
+  main.jsx
+```
+
+- **SVG illustrations** go in the `public/` folder for easy referencing.
+
+---
+
+## 🔗 Backend
+
+- Make sure the [Quiz App Backend](../Backend/README.md) is running at `http://localhost:5000` for API access.
+
+---
+
+## 🧑‍💻 Author & Contact
+
+- Assignment by [eubrics.com](https://eubrics.com)
+- For questions: maxim@eubrics.com
+
+---
