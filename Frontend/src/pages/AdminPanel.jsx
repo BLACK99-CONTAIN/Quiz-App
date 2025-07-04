@@ -1,141 +1,138 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Box,
   Paper,
   Typography,
-  TextField,
-  Button,
   Divider,
-  Grid,
-  IconButton,
+  Card,
+  CardContent,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import CreateQuizForm from '../components/CreateQuizForm'; // Your quiz creation form component
+import CreateQuizForm from '../components/CreateQuizForm';
 
 const AdminPanel = () => {
   const { user } = useContext(AuthContext);
 
-  const [quizTitle, setQuizTitle] = useState('');
-  const [tags, setTags] = useState('');
-  const [questions, setQuestions] = useState([
-    { question: '', options: ['', '', '', ''], correct: 0 }
-  ]);
-  const [topic, setTopic] = useState('');
-  const [generateCount, setGenerateCount] = useState(3);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-
-  const addQuestion = () => {
-    setQuestions([
-      ...questions,
-      { question: '', options: ['', '', '', ''], correct: 0 }
-    ]);
-  };
-
-  const handleAIGenerate = async () => {
-    setError('');
-    setSuccess('');
-    if (!topic || !generateCount || isNaN(generateCount) || generateCount < 1 || generateCount > 20) {
-      setError('Please enter a topic and a number of questions (1-20).');
-      return;
-    }
-    try {
-      const res = await fetch('http://localhost:5000/api/ai/generate-quiz', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user?.token}`
-        },
-        body: JSON.stringify({ topic, numQuestions: Number(generateCount) })
-      });
-      const data = await res.json();
-      if (res.ok && data.questions) {
-        setQuestions(data.questions.map(q => ({
-          question: q.questionText,
-          options: q.options,
-          correct: q.correctAnswer
-        })));
-        setSuccess('AI-generated questions loaded!');
-      } else {
-        setError(data.message || 'AI generation failed');
-      }
-    } catch {
-      setError('Network error');
-    }
-  };
-
-  const handleSubmitQuiz = async () => {
-    setError('');
-    setSuccess('');
-    if (!quizTitle || questions.length === 0) {
-      setError('Quiz title and at least one question are required.');
-      return;
-    }
-    try {
-      // Map questions to backend format
-      const formattedQuestions = questions.map(q => ({
-        questionText: q.question,
-        options: q.options,
-        correctAnswer: Number(q.correct)
-      }));
-
-      // Filter out empty tags
-      const tagsArray = tags
-        .split(',')
-        .map(t => t.trim())
-        .filter(t => t.length > 0);
-
-      const res = await fetch('http://localhost:5000/api/quizzes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user?.token}`
-        },
-        body: JSON.stringify({
-          title: quizTitle,
-          tags: tagsArray,
-          questions: formattedQuestions
-        })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSuccess('Quiz created successfully!');
-        setQuizTitle('');
-        setTags('');
-        setQuestions([{ question: '', options: ['', '', '', ''], correct: 0 }]);
-      } else {
-        setError(data.message || 'Quiz creation failed.');
-      }
-    } catch {
-      setError('Network error while creating quiz.');
-    }
-  };
-
   return (
-    <Box sx={{ maxWidth: 900, mx: 'auto', mt: 6, px: 2 }}>
+    <Box sx={{
+      minHeight: '100vh',
+      background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'Poppins, Inter, Arial, sans-serif',
+      py: 8,
+    }}>
       <Paper
-        elevation={6}
+        elevation={16}
         sx={{
-          p: 4,
-          borderRadius: 4,
-          background: '#f9f9f9',
-          boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+          p: { xs: 4, md: 8, xl: 12 },
+          borderRadius: 8,
+          background: 'linear-gradient(120deg, #fff 60%, #fffbe6 100%)',
+          color: '#23243a',
+          boxShadow: '0 24px 96px rgba(30,39,70,0.13)',
+          width: '100%',
+          maxWidth: 1400,
+          mx: 'auto',
         }}
       >
         <Typography
-          variant="h4"
-          sx={{ fontWeight: 600, mb: 2, color: '#333' }}
+          variant="h3"
+          sx={{
+            fontWeight: 900,
+            mb: 2,
+            color: '#168f5c',
+            letterSpacing: 2,
+            fontFamily: 'Poppins, Inter, Arial, sans-serif',
+            textAlign: 'center',
+          }}
         >
           Admin Panel
         </Typography>
-        <Divider sx={{ mb: 3 }} />
-
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Create Quiz
-        </Typography>
-        <CreateQuizForm />
-        {/* You can also list and manage quizzes here */}
+        <Divider sx={{ mb: 4 }} />
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 10,
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+        }}>
+          {/* Create Quiz Card */}
+          <Card
+            elevation={8}
+            sx={{
+              flex: 1.2,
+              borderRadius: 6,
+              background: 'linear-gradient(120deg, #fff 80%, #eafff1 100%)',
+              boxShadow: '0 8px 32px rgba(30,39,70,0.10)',
+              p: { xs: 2, md: 4 },
+              minWidth: 340,
+              maxWidth: 600,
+              mx: 'auto',
+              mb: { xs: 4, md: 0 },
+              transition: 'box-shadow 0.3s',
+              '&:hover': {
+                boxShadow: '0 16px 48px rgba(30,39,70,0.18)',
+              },
+            }}
+          >
+            <CardContent>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 800,
+                  color: '#23243a',
+                  mb: 3,
+                  letterSpacing: 1,
+                  textAlign: 'left',
+                  fontFamily: 'Poppins, Inter, Arial, sans-serif',
+                }}
+              >
+                Create Quiz
+              </Typography>
+              <CreateQuizForm />
+            </CardContent>
+          </Card>
+          {/* SVG Illustration */}
+          <Box
+            sx={{
+              flex: 1,
+              display: { xs: 'none', md: 'flex' },
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 800,
+            }}
+          >
+            <Box
+              sx={{
+                width: { md: 340, lg: 420, xl: 520 },
+                height: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(120deg, #eafff1 0%, #fff 100%)',
+                borderRadius: 6,
+                boxShadow: '0 4px 24px rgba(30,39,70,0.08)',
+                p: 2,
+              }}
+            >
+              <img
+                src="/admin-illustration.svg"
+                alt="Admin Illustration"
+                style={{
+                  width: '100%',
+                  maxWidth: 420,
+                  minWidth: 220,
+                  height: 'auto',
+                  opacity: 0.96,
+                  display: 'block',
+                  margin: '50 auto',
+                  filter: 'drop-shadow(0 4px 16px #eafff1)',
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
       </Paper>
     </Box>
   );

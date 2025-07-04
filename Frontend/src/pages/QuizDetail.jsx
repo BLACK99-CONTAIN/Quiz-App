@@ -30,9 +30,23 @@ const QuizDetail = () => {
   if (!quiz) return <Typography align="center" sx={{ mt: 8 }}>Loading...</Typography>;
 
   return (
-    <Box sx={{ maxWidth: 700, mx: 'auto', mt: 6, px: { xs: 1, sm: 2, md: 4 } }}>
-      <Paper elevation={3} sx={{ p: { xs: 2, sm: 4 } }}>
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
+    <Box sx={{
+      minHeight: '100vh',
+      background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Paper elevation={12} sx={{
+        p: { xs: 4, md: 8 },
+        borderRadius: 8,
+        background: '#fff',
+        color: '#23243a',
+        boxShadow: '0 16px 64px rgba(30,39,70,0.10)',
+        width: '100%',
+        maxWidth: 700,
+      }}>
+        <Typography variant="h3" gutterBottom sx={{ fontWeight: 900, color: '#168f5c', mb: 2 }}>
           {quiz.title}
         </Typography>
         <Typography variant="subtitle1" gutterBottom>
@@ -44,7 +58,19 @@ const QuizDetail = () => {
         {attempted ? (
           <Alert severity="success" sx={{ mt: 2 }}>You have already attempted this quiz.</Alert>
         ) : (
-          <Button variant="contained" sx={{ mt: 2, minWidth: 180 }} onClick={() => navigate(`/attempt/${quiz._id}`)}>
+          <Button variant="contained" sx={{
+            mt: 2,
+            minWidth: 180,
+            background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+            color: '#23243a',
+            borderRadius: 4,
+            fontWeight: 700,
+            fontSize: 20,
+            '&:hover': {
+              background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+              color: '#23243a',
+            },
+          }} onClick={() => navigate(`/attempt/${quiz._id}`)}>
             Attempt Quiz
           </Button>
         )}

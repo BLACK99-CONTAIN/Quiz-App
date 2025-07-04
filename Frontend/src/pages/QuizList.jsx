@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { List, Paper, Box, Typography, Button } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 
 const QuizList = () => {
   const { user } = useContext(AuthContext);
@@ -18,43 +16,33 @@ const QuizList = () => {
       .then(data => setQuizzes(data));
   }, [user]);
 
-  // Delete quiz handler (Admin only)
-  const handleDelete = async (quizId) => {
-    if (!window.confirm('Are you sure you want to delete this quiz?')) return;
-    const res = await fetch(`http://localhost:5000/api/quizzes/${quizId}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${user?.token}` }
-    });
-    if (res.ok) {
-      setQuizzes(quizzes.filter(q => q._id !== quizId));
-    } else {
-      alert('Failed to delete quiz');
-    }
-  };
-
   return (
     <Box
       sx={{
-        maxWidth: 1200,
-        mx: 'auto',
-        mt: 8,
-        px: { xs: 1, sm: 2, md: 4 },
+        minHeight: '100vh',
+        background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
+        py: 6,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Paper
-        elevation={8}
+        elevation={12}
         sx={{
-          p: { xs: 3, sm: 6 },
-          borderRadius: 6,
-          background: 'rgba(20,20,30,0.92)',
-          color: '#f5f7fa',
-          boxShadow: '0 12px 48px rgba(139,0,0,0.35)',
+          p: { xs: 4, md: 8 },
+          borderRadius: 8,
+          background: '#fff',
+          color: '#23243a',
+          boxShadow: '0 16px 64px rgba(30,39,70,0.10)',
+          width: '100%',
+          maxWidth: 1000,
         }}
       >
         <Typography
-          variant="h4"
+          variant="h3"
           gutterBottom
-          sx={{ fontWeight: 700, textAlign: 'center', color: '#ffd166' }}
+          sx={{ fontWeight: 900, textAlign: 'center', color: '#168f5c', mb: 4 }}
         >
           Available Quizzes
         </Typography>
@@ -68,12 +56,13 @@ const QuizList = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.12)',
-                borderLeft: '6px solid #1976d2',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                borderLeft: '6px solid #1db954',
                 minWidth: { xs: '100%', md: 700 },
                 maxWidth: '100%',
-                background: 'rgba(255,255,255,0.07)',
-                color: '#f5f7fa'
+                background: '#f5f7fa',
+                color: '#23243a',
+                borderRadius: 4,
               }}
             >
               <Box sx={{ flex: 1 }}>
@@ -83,45 +72,23 @@ const QuizList = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', gap: 2 }}>
-                {user?.role === 'Admin' ? (
-                  <>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => navigate(`/admin/view/${q._id}`)}
-                      sx={{ fontWeight: 600, minWidth: 60 }}
-                    >
-                      View
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<EditIcon />}
-                      onClick={() => navigate(`/admin/edit/${q._id}`)}
-                      sx={{ fontWeight: 600, minWidth: 60 }}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                      onClick={() => handleDelete(q._id)}
-                      sx={{ fontWeight: 600, minWidth: 60 }}
-                    >
-                      Delete
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate(`/quizzes/${q._id}`)}
-                    sx={{ fontWeight: 600, minWidth: 120 }}
-                  >
-                    View / Attempt
-                  </Button>
-                )}
+                <Button
+                  variant="contained"
+                  sx={{
+                    fontWeight: 600,
+                    minWidth: 120,
+                    background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+                    color: '#23243a',
+                    borderRadius: 3,
+                    '&:hover': {
+                      background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+                      color: '#23243a',
+                    },
+                  }}
+                  onClick={() => navigate(`/quizzes/${q._id}`)}
+                >
+                  View / Attempt
+                </Button>
               </Box>
             </Paper>
           ))}

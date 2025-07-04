@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -11,51 +11,56 @@ const Navbar = () => {
     <AppBar
       position="static"
       sx={{
-        background: 'linear-gradient(90deg,rgb(0, 0, 4) 0%, #8b0000 100%)',
-        color: '#ffd166',
-        boxShadow: '0 8px 32px 0 rgba(139,0,0,0.7)',
+        background: 'linear-gradient(90deg, #168f5c 0%, #fff 100%)',
+        color: '#23243a',
+        boxShadow: '0 8px 24px 0 rgba(30,39,70,0.10)',
         width: '100%',
         zIndex: 1000,
+        minHeight: 64,
       }}
     >
-      <Toolbar sx={{ minHeight: 90, px: 8, display: 'flex', justifyContent: 'space-between' }}>
-        <Button
+      <Toolbar
+        sx={{
+          minHeight: 64,
+          px: { xs: 2, md: 6 },
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Typography
+          variant="h5"
           component={RouterLink}
-          to={user ? "/dashboard" : "/"}
-          color="inherit"
+          to="/"
           sx={{
             fontWeight: 900,
+            textDecoration: 'none',
+            color: '#23243a',
             letterSpacing: 2,
-            textAlign: 'center',
-            fontSize: 36,
-            textShadow: '2px 2px 8px #000',
-            transition: 'color 0.3s, font-size 0.3s',
+            fontFamily: 'Poppins, Inter, Arial, sans-serif',
+            fontSize: { xs: 22, md: 28, xl: 36 },
+            transition: 'color 0.2s, text-shadow 0.2s',
             '&:hover': {
-              color: '#fff',
-              fontSize: 42,
+              color: '#168f5c',
+              textShadow: '0 2px 8px #fffbe6',
             },
           }}
         >
           Quiz App
-        </Button>
-        <div>
+        </Typography>
+        <Box sx={{ display: 'flex', gap: { xs: 0.5, md: 2 } }}>
           <Button
             component={RouterLink}
             to="/quizzes"
             color="inherit"
             sx={{
               fontWeight: 700,
-              fontSize: 28,
+              fontSize: { xs: 14, md: 18, xl: 22 },
               letterSpacing: 1,
-              textShadow: '2px 2px 8px #000',
-              mx: 2,
-              background: 'none',
-              boxShadow: 'none', 
+              mx: 0.5,
+              color: location.pathname.startsWith('/quizzes') ? '#168f5c' : '#23243a',
+              transition: 'color 0.2s, font-size 0.2s',
               '&:hover': {
-                color: '#ffd166',
-                fontSize: 34,
-                background: 'none', 
-                boxShadow: 'none',
+                color: '#168f5c',
               },
             }}
           >
@@ -67,16 +72,14 @@ const Navbar = () => {
               to="/admin"
               color="inherit"
               sx={{
-                color: location.pathname === '/admin' ? '#ffd166' : '#fff',
                 fontWeight: 700,
-                fontSize: 28,
+                fontSize: { xs: 14, md: 18, xl: 22 },
                 letterSpacing: 1,
-                textShadow: '2px 2px 8px #000',
-                mx: 2,
-                transition: 'color 0.3s, font-size 0.3s',
+                mx: 0.5,
+                color: location.pathname.startsWith('/admin') ? '#168f5c' : '#23243a',
+                transition: 'color 0.2s, font-size 0.2s',
                 '&:hover': {
-                  color: '#ff1744',
-                  fontSize: 34,
+                  color: '#168f5c',
                 },
               }}
             >
@@ -89,14 +92,13 @@ const Navbar = () => {
               color="inherit"
               sx={{
                 fontWeight: 700,
-                fontSize: 28,
+                fontSize: { xs: 14, md: 18, xl: 22 },
                 letterSpacing: 1,
-                textShadow: '2px 2px 8px #000',
-                mx: 2,
-                transition: 'color 0.3s, font-size 0.3s',
+                mx: 0.5,
+                color: '#23243a',
+                transition: 'color 0.2s, font-size 0.2s',
                 '&:hover': {
-                  color: '#ffd166',
-                  fontSize: 34,
+                  color: '#168f5c',
                 },
               }}
             >
@@ -110,14 +112,13 @@ const Navbar = () => {
                 color="inherit"
                 sx={{
                   fontWeight: 700,
-                  fontSize: 28,
+                  fontSize: { xs: 14, md: 18, xl: 22 },
                   letterSpacing: 1,
-                  textShadow: '2px 2px 8px #000',
-                  mx: 2,
-                  transition: 'color 0.3s, font-size 0.3s',
+                  mx: 0.5,
+                  color: location.pathname === '/login' ? '#168f5c' : '#23243a',
+                  transition: 'color 0.2s, font-size 0.2s',
                   '&:hover': {
-                    color: '#ffd166',
-                    fontSize: 34,
+                    color: '#168f5c',
                   },
                 }}
               >
@@ -129,14 +130,13 @@ const Navbar = () => {
                 color="inherit"
                 sx={{
                   fontWeight: 700,
-                  fontSize: 28,
+                  fontSize: { xs: 14, md: 18, xl: 22 },
                   letterSpacing: 1,
-                  textShadow: '2px 2px 8px #000',
-                  mx: 2,
-                  transition: 'color 0.3s, font-size 0.3s',
+                  mx: 0.5,
+                  color: location.pathname === '/register' ? '#168f5c' : '#23243a',
+                  transition: 'color 0.2s, font-size 0.2s',
                   '&:hover': {
-                    color: '#ffd166',
-                    fontSize: 34,
+                    color: '#168f5c',
                   },
                 }}
               >
@@ -144,7 +144,7 @@ const Navbar = () => {
               </Button>
             </>
           )}
-        </div>
+        </Box>
       </Toolbar>
     </AppBar>
   );

@@ -32,7 +32,7 @@ const QuizAttempt = () => {
 
   const handleAnswerChange = (questionIdx, optionIdx) => {
     const updated = [...answers];
-    updated[questionIdx] = Number(optionIdx); // <-- ensure number
+    updated[questionIdx] = Number(optionIdx);
     setAnswers(updated);
   };
 
@@ -65,20 +65,20 @@ const QuizAttempt = () => {
     <>
       <Box
         sx={{
-          minHeight: '80vh', // was 100vh, now less
+          minHeight: '80vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-        
+          background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
         }}
       >
         <Box
           sx={{
             width: { xs: '95%', sm: 600 },
             mx: 'auto',
-            bgcolor: 'rgba(43, 2, 2, 0.97)',
+            bgcolor: '#fff',
             borderRadius: 6,
-            boxShadow: '0 8px 32px rgba(19, 23, 38, 0.18)',
+            boxShadow: '0 8px 32px rgba(30,39,70,0.18)',
             p: { xs: 3, sm: 6 },
             textAlign: 'center',
           }}
@@ -90,7 +90,7 @@ const QuizAttempt = () => {
               py: 3,
               mb: 3,
               borderRadius: 4,
-              background: 'linear-gradient(90deg,rgb(109, 62, 61) 0%,rgb(91, 68, 14) 100%)',
+              background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
               color: '#23243a',
               fontWeight: 900,
               fontSize: { xs: 28, sm: 38 },
@@ -103,7 +103,6 @@ const QuizAttempt = () => {
           {!showAnswers && (
             <Button
               variant="contained"
-              color="primary"
               sx={{
                 mb: 4,
                 fontWeight: 700,
@@ -112,7 +111,12 @@ const QuizAttempt = () => {
                 py: 1.5,
                 borderRadius: 3,
                 boxShadow: '0 2px 8px rgba(30,39,70,0.10)',
-                background: 'linear-gradient(90deg,rgb(5, 21, 37) 0%,rgb(2, 19, 31) 100%)',
+                background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+                color: '#23243a',
+                '&:hover': {
+                  background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+                  color: '#23243a',
+                },
               }}
               onClick={() => setShowAnswers(true)}
             >
@@ -122,7 +126,7 @@ const QuizAttempt = () => {
           {showAnswers && (
             <Box sx={{ mt: 2 }}>
               {quiz.questions.map((q, idx) => (
-                <Box key={idx} sx={{ mb: 3, p: 2, borderRadius: 2, background: '#23243a', color: '#fff', textAlign: 'left' }}>
+                <Box key={idx} sx={{ mb: 3, p: 2, borderRadius: 2, background: '#f5f7fa', color: '#23243a', textAlign: 'left' }}>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: 18 }}>
                     {idx + 1}. {q.questionText}
                   </Typography>
@@ -140,7 +144,7 @@ const QuizAttempt = () => {
                           py: 0.5,
                           borderRadius: 1,
                           background: isCorrect
-                            ? '#1976d2'
+                            ? '#1db954'
                             : isSelected
                               ? '#ffd166'
                               : 'transparent',
@@ -148,7 +152,7 @@ const QuizAttempt = () => {
                             ? '#fff'
                             : isSelected
                               ? '#23243a'
-                              : '#fff',
+                              : '#23243a',
                           fontWeight: isCorrect || isSelected ? 700 : 400,
                           fontSize: 16,
                         }}
@@ -182,15 +186,21 @@ const QuizAttempt = () => {
   );
 
   return (
-    <Box sx={{ maxWidth: 700, mx: 'auto', mt: 8, width: '100%' }}>
+    <Box sx={{
+      minHeight: '100vh',
+      background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
       <Paper elevation={8} sx={{
         p: { xs: 3, sm: 6 },
         borderRadius: 6,
-        background: 'rgba(34,36,58,0.92)',
-        color: '#f5f7fa',
-        boxShadow: '0 12px 48px rgba(30,39,70,0.35)',
+        background: '#fff',
+        color: '#23243a',
+        boxShadow: '0 12px 48px rgba(30,39,70,0.10)',
         width: '100%',
-        minWidth: { xs: 320, sm: 500, md: 700 }
+        maxWidth: 700,
       }}>
         <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700 }}>
           {quiz.title}
@@ -216,7 +226,18 @@ const QuizAttempt = () => {
               </FormControl>
             </Box>
           ))}
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2, fontWeight: 600, fontSize: 18 }}>
+          <Button type="submit" variant="contained" fullWidth sx={{
+            mt: 2,
+            fontWeight: 600,
+            fontSize: 18,
+            background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+            color: '#23243a',
+            borderRadius: 3,
+            '&:hover': {
+              background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+              color: '#23243a',
+            },
+          }}>
             Submit Quiz
           </Button>
         </form>

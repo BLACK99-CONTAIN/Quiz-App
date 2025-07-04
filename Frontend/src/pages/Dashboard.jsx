@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Paper, Typography, List, ListItem, ListItemText, Box, Button, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import PrivateRoute from '../components/PrivateRoute';
 
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -25,50 +24,93 @@ const Dashboard = () => {
   return (
     <Box
       sx={{
-        width: '100vw',
-        minHeight: '80vh',
+        minHeight: '100vh',
+        background: 'linear-gradient(120deg, #fffbe6 0%, #fff 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: 'background.default',
+        fontFamily: 'Poppins, Inter, Arial, sans-serif',
+        py: 6,
       }}
     >
       <Paper
-        elevation={8}
+        elevation={12}
         sx={{
-          p: { xs: 3, sm: 6 },
-          borderRadius: 6,
+          p: { xs: 4, md: 8 },
+          borderRadius: 8,
           width: '100%',
-          maxWidth: 700,
-          background: 'rgba(20,20,30,0.92)',
-          color: '#f5f7fa',
-          boxShadow: '0 12px 48px rgba(139,0,0,0.35)',
+          maxWidth: 1000,
+          background: '#fff',
+          color: '#23243a',
+          boxShadow: '0 16px 64px rgba(30,39,70,0.10)',
           mx: 'auto',
         }}
       >
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, textAlign: 'center', color: '#ffd166' }}>
+        <Typography variant="h3" gutterBottom sx={{ fontWeight: 900, textAlign: 'center', color: '#168f5c', mb: 2 }}>
           Welcome, {user?.username}
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 3 }}>
-          <Button variant="outlined" color="error" onClick={logout}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4 }}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderRadius: 4,
+              fontWeight: 700,
+              borderColor: '#1db954',
+              color: '#1db954',
+              px: 4,
+              fontSize: 18,
+              '&:hover': {
+                background: '#fffbe6',
+                borderColor: '#1db954',
+              },
+            }}
+            onClick={logout}
+          >
             Logout
           </Button>
-          <Button variant="contained" color="primary" onClick={() => navigate('/quizzes')}>
+          <Button
+            variant="contained"
+            sx={{
+              background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+              color: '#23243a',
+              borderRadius: 4,
+              fontWeight: 700,
+              px: 4,
+              fontSize: 18,
+              boxShadow: '0 2px 8px rgba(30,39,70,0.10)',
+              '&:hover': {
+                background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+                color: '#23243a',
+              },
+            }}
+            onClick={() => navigate('/quizzes')}
+          >
             Go to Quizzes
           </Button>
           {user?.role === 'Admin' && (
             <Button
               variant="contained"
-              color="secondary"
+              sx={{
+                background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
+                color: '#23243a',
+                borderRadius: 4,
+                fontWeight: 700,
+                px: 4,
+                fontSize: 18,
+                boxShadow: '0 2px 8px rgba(30,39,70,0.10)',
+                '&:hover': {
+                  background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
+                  color: '#23243a',
+                },
+              }}
               onClick={() => navigate('/admin')}
-              sx={{ ml: 2 }}
             >
-              Go to Admin Panel
+              Admin Panel
             </Button>
           )}
         </Box>
         <Divider sx={{ mb: 3 }} />
-        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2, color: '#f5f7fa' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: '#23243a' }}>
           Your Quiz Attempts
         </Typography>
         {error && (
@@ -86,12 +128,12 @@ const Dashboard = () => {
               <ListItem key={a._id} divider sx={{ py: 2 }}>
                 <ListItemText
                   primary={
-                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#f5f7fa' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#23243a' }}>
                       {a.quizTitle}
                     </Typography>
                   }
                   secondary={
-                    <Typography variant="body1" sx={{ color: '#1976d2', fontWeight: 600 }}>
+                    <Typography variant="body1" sx={{ color: '#1db954', fontWeight: 600 }}>
                       Score: {a.score}
                     </Typography>
                   }
