@@ -1,6 +1,6 @@
 import { AuthContext } from './context/AuthContext';
 import { AppBar, Toolbar, Typography, Box, Container, createTheme, ThemeProvider, CssBaseline } from '@mui/material';
-import { Routes, Route, Navigate } from 'react-router-dom'; // <-- FIXED IMPORT
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
