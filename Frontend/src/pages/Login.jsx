@@ -15,24 +15,23 @@ import {
 const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
-  const handleChange = e =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
 
     // 🛡️ Basic frontend validation
-    if (!form.username || !form.password) {
-      setError('Please enter both username and password 🙏');
+    if (!form.email || !form.password) {
+      setError('Please enter both email and password 🙏');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch('https://your-backend-url/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -40,18 +39,13 @@ const Login = () => {
       const data = await res.json();
 
       if (res.ok) {
-        login(data.token, data.role, data.username);
-        navigate('/dashboard');
+        login(data.token, 'User', data.email);
+        navigate('/topic');
       } else {
         setError(data.message || 'Login failed');
-
-        // 🧭 Redirect if user not found
-        if (data.message.includes('Try registering')) {
-          setTimeout(() => navigate('/register'), 3000);
-        }
       }
     } catch (err) {
-      setError('Network error. Please try again.');
+      setError('Network error');
     }
   };
 
@@ -120,8 +114,8 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <TextField
               label="Email"
-              name="username"
-              value={form.username}
+              name="email"
+              value={form.email}
               onChange={handleChange}
               fullWidth
               margin="normal"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Paper, Typography, Button, Box, Radio, RadioGroup, FormControlLabel, FormControl, Alert } from '@mui/material';
+import { Paper, Typography, Button, Box, Radio, RadioGroup, FormControlLabel, FormControl, Alert, TextField } from '@mui/material';
 import Chatbot from './Chatbot';
 
 const QuizAttempt = () => {
@@ -26,7 +26,7 @@ const QuizAttempt = () => {
       .then(res => res.json())
       .then(data => {
         setQuiz(data);
-        setAnswers(Array(data.questions.length).fill(null));
+        setAnswers(Array(data.questions.length).fill(''));
       });
   }, [id, user]);
 
@@ -192,56 +192,59 @@ const QuizAttempt = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      fontFamily: 'Poppins, Inter, Arial, sans-serif',
     }}>
-      <Paper elevation={8} sx={{
-        p: { xs: 3, sm: 6 },
-        borderRadius: 6,
+      <Paper elevation={12} sx={{
+        p: { xs: 4, md: 8 },
+        borderRadius: 8,
         background: '#fff',
         color: '#23243a',
-        boxShadow: '0 12px 48px rgba(30,39,70,0.10)',
+        boxShadow: '0 16px 64px rgba(30,39,70,0.10)',
         width: '100%',
         maxWidth: 700,
       }}>
-        <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: 700 }}>
-          {quiz.title}
+        <Typography variant="h3" sx={{ fontWeight: 900, color: '#168f5c', mb: 2, textAlign: 'center' }}>
+          {quiz.topic} Quiz
         </Typography>
-        <form onSubmit={handleSubmit}>
-          {quiz.questions.map((q, idx) => (
-            <Box key={idx} sx={{ mb: 3 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{idx + 1}. {q.questionText}</Typography>
-              <FormControl component="fieldset">
-                <RadioGroup
-                  value={answers[idx]}
-                  onChange={e => handleAnswerChange(idx, Number(e.target.value))}
-                >
-                  {q.options.map((opt, optIdx) => (
-                    <FormControlLabel
-                      key={optIdx}
-                      value={optIdx}
-                      control={<Radio required={answers[idx] === null} />}
-                      label={opt}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-            </Box>
-          ))}
-          <Button type="submit" variant="contained" fullWidth sx={{
-            mt: 2,
-            fontWeight: 600,
-            fontSize: 18,
-            background: 'linear-gradient(90deg, #1db954 0%, #fffbe6 100%)',
-            color: '#23243a',
-            borderRadius: 3,
+        {quiz.questions.map((q, idx) => (
+          <Box key={idx} sx={{ mb: 3 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+              Q{idx + 1}: {q.question}
+            </Typography>
+            <TextField
+              label="Your Answer"
+              value={answers[idx]}
+              onChange={e => handleAnswerChange(idx, e.target.value)}
+              fullWidth
+              sx={{
+                borderRadius: 4,
+                background: '#f5f7fa',
+                fontSize: 18,
+              }}
+            />
+          </Box>
+        ))}
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            mt: 3,
+            background: 'linear-gradient(90deg, #1db954 0%, #1aa260 100%)',
+            color: '#fff',
+            borderRadius: 4,
+            fontWeight: 700,
+            fontSize: 22,
+            boxShadow: '0 4px 16px rgba(30,39,70,0.10)',
+            py: 1.5,
             '&:hover': {
-              background: 'linear-gradient(90deg, #fffbe6 0%, #1db954 100%)',
-              color: '#23243a',
+              background: 'linear-gradient(90deg, #1aa260 0%, #1db954 100%)',
+              color: '#fff',
             },
-          }}>
-            Submit Quiz
-          </Button>
-        </form>
-        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          }}
+          onClick={handleSubmit}
+        >
+          Submit Answers
+        </Button>
       </Paper>
     </Box>
   );

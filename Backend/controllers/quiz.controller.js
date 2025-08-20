@@ -44,8 +44,8 @@ export const createQuiz = async (req, res) => {
 // Get all quizzes
 export const getAllQuizzes = async (req, res) => {
     try {
-        const quizzes = await Quiz.find().populate('createdBy', 'username');
-        res.status(200).json(quizzes);
+        const quizzes = await Quiz.find();
+        res.json(quizzes);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching quizzes', error });
     }
@@ -54,9 +54,9 @@ export const getAllQuizzes = async (req, res) => {
 // Get a single quiz by ID
 export const getQuizById = async (req, res) => {
     try {
-        const quiz = await Quiz.findById(req.params.id).populate('createdBy', 'username');
+        const quiz = await Quiz.findById(req.params.id);
         if (!quiz) return res.status(404).json({ message: 'Quiz not found' });
-        res.status(200).json(quiz);
+        res.json(quiz);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching quiz', error });
     }

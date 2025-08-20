@@ -1,20 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { List, Paper, Box, Typography, Button } from '@mui/material';
 
 const QuizList = () => {
-  const { user } = useContext(AuthContext);
-  const [quizzes, setQuizzes] = useState([]);
+  const quizzes = JSON.parse(localStorage.getItem('topicQuizzes')) || [];
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/quizzes', {
-      headers: { Authorization: `Bearer ${user?.token}` }
-    })
-      .then(res => res.json())
-      .then(data => setQuizzes(data));
-  }, [user]);
 
   return (
     <Box
@@ -44,7 +34,7 @@ const QuizList = () => {
           gutterBottom
           sx={{ fontWeight: 900, textAlign: 'center', color: '#168f5c', mb: 4 }}
         >
-          Available Quizzes
+          Quizzes for Your Topic
         </Typography>
         <List sx={{ mt: 2 }}>
           {quizzes.map(q => (
@@ -85,9 +75,12 @@ const QuizList = () => {
                       color: '#23243a',
                     },
                   }}
-                  onClick={() => navigate(`/quizzes/${q._id}`)}
+                  onClick={() => {
+                    localStorage.setItem('currentQuiz', JSON.stringify(q));
+                    navigate(`/attempt`);
+                  }}
                 >
-                  View / Attempt
+                  Attempt
                 </Button>
               </Box>
             </Paper>

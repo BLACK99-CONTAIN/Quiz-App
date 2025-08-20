@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Paper, Typography, TextField, Button, CircularProgress } from '@mui/material';
 
-const Chatbot = ({ quiz }) => {
+const Chatbot = () => {
+  const quiz = JSON.parse(localStorage.getItem('currentQuiz'));
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -11,10 +12,10 @@ const Chatbot = ({ quiz }) => {
     setMessages([...messages, { from: 'user', text: input }]);
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/chatbot/ask', {
+      const res = await fetch('https://your-backend-url/api/chatbot/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quiz, userQuestion: input })
+        body: JSON.stringify({ topic: quiz.topic, userQuestion: input })
       });
       const data = await res.json();
       setMessages(msgs => [...msgs, { from: 'bot', text: data.answer }]);
@@ -56,7 +57,7 @@ const Chatbot = ({ quiz }) => {
           textAlign: 'center',
           letterSpacing: 2,
         }}>
-          Quiz Chatbot
+          Discuss "{quiz.topic}" with Chatbot
         </Typography>
         <Box sx={{
           flex: 1,
@@ -70,7 +71,7 @@ const Chatbot = ({ quiz }) => {
         }}>
           {messages.length === 0 && (
             <Typography sx={{ color: '#888', mt: 8, textAlign: 'center', fontSize: 22 }}>
-              Ask anything about your quiz!
+              Ask anything about "{quiz.topic}"!
             </Typography>
           )}
           {messages.map((msg, idx) => (
@@ -107,7 +108,7 @@ const Chatbot = ({ quiz }) => {
             value={input}
             onChange={e => setInput(e.target.value)}
             fullWidth
-            placeholder="Ask about your quiz..."
+            placeholder={`Ask about "${quiz.topic}"...`}
             disabled={loading}
             sx={{
               bgcolor: '#f5f7fa',

@@ -1,33 +1,19 @@
 import express from 'express';
-import { body } from 'express-validator';
-import { createQuiz, getAllQuizzes, getQuizById, updateQuiz, deleteQuiz } from '../controllers/quiz.controller.js';
-import { authenticate, authorize } from '../middlewares/auth.js';
+import Quiz from '../models/quiz.model.js';
+import { getAllQuizzes, getQuizById } from '../controllers/quiz.controller.js';
 
 const router = express.Router();
 
-// Only Admins can create quizzes
-router.post(
-  '/',
-  authenticate,
-  authorize(['Admin']),
-  [
-    body('title').notEmpty(),
-    body('questions').isArray({ min: 1 }),
-    body('questions.*.questionText').notEmpty(),
-    body('questions.*.options').isArray({ min: 2 }),
-    body('questions.*.correctAnswer').isInt(),
-  ],
-  createQuiz
-);
+router.get('/', getAllQuizzes);
+router.get('/:id', getQuizById);
 
-// All users can view quizzes
-router.get('/', authenticate, getAllQuizzes);
+// Search quizzes by topic/tag
+router.get('/search', async (req, res) => {
+  const { topic } = req.query;
+  if (!topic) return res.status(400).json({ message: 'Topic required.' });
 
-// All users can view a specific quiz by ID
-router.get('/:id', authenticate, getQuizById);
-
-// Only Admins can update or delete quizzes
-router.put('/:id', authenticate, authorize(['Admin']), updateQuiz);
-router.delete('/:id', authenticate, authorize(['Admin']), deleteQuiz);
+  const quizzes = await Quiz.find({ tags: { $regex: topic, $options: 'i' } }).limit(10);
+  res.json(quizzes);
+});
 
 export default router;

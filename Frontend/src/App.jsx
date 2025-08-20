@@ -6,14 +6,11 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import QuizList from './pages/QuizList';
-import QuizDetail from './pages/QuizDetail';
 import QuizAttempt from './pages/QuizAttempt';
-import AdminPanel from './pages/AdminPanel';
 import Chatbot from './pages/Chatbot';
 import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar';
-import AdminQuizView from './pages/AdminQuizView';
-import AdminQuizEdit from './pages/AdminQuizEdit';
+import TopicSearch from './pages/TopicSearch';
 
 const theme = createTheme({
   palette: {
@@ -65,16 +62,12 @@ function App() {
         <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
           <Routes> {/* <-- FIXED: Use Routes, not Router */}
             <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-            <Route path="/quizzes" element={<PrivateRoute><QuizList /></PrivateRoute>} />
-            <Route path="/quizzes/:id" element={<PrivateRoute><QuizDetail /></PrivateRoute>} />
-            <Route path="/attempt/:id" element={<PrivateRoute><QuizAttempt /></PrivateRoute>} />
-            <Route path="/admin" element={<PrivateRoute role="Admin"><AdminPanel /></PrivateRoute>} />
-            <Route path="/chatbot" element={<PrivateRoute><Chatbot /></PrivateRoute>} />
-            <Route path="/admin/view/:id" element={<PrivateRoute role="Admin"><AdminQuizView /></PrivateRoute>} />
-            <Route path="/admin/edit/:id" element={<PrivateRoute role="Admin"><AdminQuizEdit /></PrivateRoute>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/topic" element={<TopicSearch />} />
+            <Route path="/quizzes" element={<QuizList />} />
+            <Route path="/attempt" element={<QuizAttempt />} />
+            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="*" element={<Box sx={{ textAlign: 'center', mt: 8 }}><Typography variant="h4">404 Not Found</Typography></Box>} />
           </Routes>
         </Box>
