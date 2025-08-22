@@ -1,26 +1,21 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 
 export const askChatbot = async (req, res) => {
-    const { quiz, userQuestion } = req.body;
-    if (!quiz || !userQuestion) {
-        return res.status(400).json({ message: 'Quiz and user question are required.' });
+  const { topic, userQuestion } = req.body;
+  if (!topic || !userQuestion) return res.status(400).json({ message: 'Topic and question required.' });
+
+  try {
+    const prompt = `You are a helpful expert on "${topic}". Answer this question: ${userQuestion}`;
+    const geminiRes = await axios.post(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      { contents: [{ parts: [{ text: prompt }] }] }
+    );
+    const answer = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    res.json({ answer });
+  } catch (err) {
+    if (err.response && err.response.status === 429) {
+      return res.status(429).json({ message: 'Gemini API quota exceeded. Please try again later or check your billing.' });
     }
-    try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "models/gemini-2.0-flash" });
-
-        const prompt = `
-        The user just took this quiz: ${JSON.stringify(quiz)}
-        The user asks: "${userQuestion}"
-        Please answer as a helpful quiz assistant.
-        `;
-
-        const result = await model.generateContent(prompt);
-        const aiContent = result.response.text().trim();
-
-        res.json({ answer: aiContent });
-    } catch (error) {
-        console.error('Chatbot AI error:', error.message, error.response?.data || '', error.stack);
-        res.status(500).json({ message: 'Chatbot failed', error: error.message });
-    }
+    res.status(500).json({ message: 'Gemini API error', error: err.message });
+  }
 };

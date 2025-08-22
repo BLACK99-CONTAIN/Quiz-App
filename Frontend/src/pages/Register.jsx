@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch('https://your-backend-url/api/auth/register', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

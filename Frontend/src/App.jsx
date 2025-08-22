@@ -68,7 +68,7 @@ function App() {
             <Route path="/quizzes" element={<QuizList />} />
             <Route path="/attempt" element={<QuizAttempt />} />
             <Route path="/chatbot" element={<Chatbot />} />
-            <Route path="*" element={<Box sx={{ textAlign: 'center', mt: 8 }}><Typography variant="h4">404 Not Found</Typography></Box>} />
+            <Route path="*" element={<Register />} />
           </Routes>
         </Box>
       </Box>

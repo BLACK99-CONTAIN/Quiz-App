@@ -1,34 +1,57 @@
-import { validationResult } from 'express-validator';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 
-export const generateQuizWithAI = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    const { topic, numQuestions } = req.body;
+export const generateQuiz = async (req, res) => {
+  const { topic } = req.body;
+  if (!topic) return res.status(400).json({ message: 'Topic required.' });
+
+  try {
+    const prompt = `Generate 10 multiple-choice questions about "${topic}". Each question should have 4 options and indicate the correct answer index. Respond in JSON: [{question, options, correctAnswer}]`;
+
+   const geminiRes = await axios.post(
+  `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+  {
+    contents: [{ role: "user", parts: [{ text: prompt }] }]
+  }
+);
+
+
+    let text = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    text = text.replace(/```json|```/g, "").trim();
+
+    let questions;
     try {
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "models/gemini-2.0-flash" });
-
-        const prompt = `Generate ${numQuestions} multiple-choice questions about "${topic}". Each question must have 4 options and specify the correct answer index. Respond ONLY with a JSON array in this format: [{"questionText":"...","options":["...","...","...","..."],"correctAnswer":0}]. Do not include any explanation or text outside the JSON array.`;
-
-        const result = await model.generateContent(prompt);
-        const aiContent = result.response.text().trim();
-
-        // Extract JSON array from the response
-        let jsonStart = aiContent.indexOf('[');
-        let jsonEnd = aiContent.lastIndexOf(']');
-        let questions = [];
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-            questions = JSON.parse(aiContent.substring(jsonStart, jsonEnd + 1));
-        } else {
-            throw new Error("Gemini did not return a valid JSON array.");
-        }
-
-        res.json({ questions });
-    } catch (error) {
-        console.error('AI generation error:', error.message, error.response?.data || '', error.stack);
-        res.status(500).json({ message: 'AI generation failed', error: error.message });
+      questions = JSON.parse(text);
+    } catch (e) {
+      throw new Error("Failed to parse Gemini response: " + text);
     }
+
+    res.json({ topic, questions });
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    res.status(500).json({
+      message: 'Gemini API error',
+      error: err.response?.data || err.message
+    });
+  }
+};
+
+
+export const askChatbot = async (req, res) => {
+  const { topic, userQuestion } = req.body;
+  if (!topic || !userQuestion) return res.status(400).json({ message: 'Topic and question required.' });
+
+  try {
+    const prompt = `You are a helpful expert on "${topic}". Answer this question: ${userQuestion}`;
+    const geminiRes = await axios.post(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        contents: [{ role: "user", parts: [{ text: prompt }] }]
+      }
+    );
+    const answer = geminiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    res.json({ answer });
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    res.status(500).json({ message: 'Gemini API error', error: err.response?.data || err.message });
+  }
 };

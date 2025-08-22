@@ -4,8 +4,12 @@ import { validationResult } from 'express-validator';
 
 // Submit a quiz attempt
 export const submitAttempt = async (req, res) => {
+    const { answers } = req.body;
+    if (!answers || !Array.isArray(answers) || answers.some(a => a === '')) {
+        return res.status(400).json({ message: 'All questions must be answered.' });
+    }
     try {
-        const { quizId, answers } = req.body;
+        const { quizId } = req.body;
         const quiz = await Quiz.findById(quizId);
         let score = 0;
         quiz.questions.forEach((q, idx) => {

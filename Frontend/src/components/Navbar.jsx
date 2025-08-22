@@ -30,7 +30,7 @@ const Navbar = () => {
         <Typography
           variant="h5"
           component={RouterLink}
-          to="/"
+          to="/topic"
           sx={{
             fontWeight: 900,
             textDecoration: 'none',
