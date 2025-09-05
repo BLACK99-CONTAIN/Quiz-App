@@ -13,7 +13,7 @@ const TopicSearch = () => {
     if (!topic.trim()) return setError('Please enter a topic.');
     setLoading(true);
     try {
-      const res = await fetch('/api/ai/generate-quiz', {
+      const res = await fetch('https://quiz-app-backend-fsd8.onrender.com/api/ai/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic }),
