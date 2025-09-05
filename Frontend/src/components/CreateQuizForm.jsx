@@ -39,7 +39,7 @@ const CreateQuizForm = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://localhost:5000/api/quizzes", {
+      const res = await fetch("https://quiz-app-backend-fsd8.onrender.com/api/quizzes", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
         body: JSON.stringify({
@@ -66,7 +66,7 @@ const CreateQuizForm = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await fetch("http://localhost:5000/api/ai/generate-quiz", {
+      const res = await fetch("https://quiz-app-backend-fsd8.onrender.com/api/ai/generate-quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
         body: JSON.stringify({ topic, numQuestions: Number(generateCount) }),

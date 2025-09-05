@@ -10,7 +10,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/attempts', {
+    fetch('https://quiz-app-backend-fsd8.onrender.com/api/attempts', {
       headers: { Authorization: `Bearer ${user?.token}` }
     })
       .then(res => res.json())
