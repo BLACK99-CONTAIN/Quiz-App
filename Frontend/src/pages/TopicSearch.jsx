@@ -21,7 +21,7 @@ const TopicSearch = () => {
       const data = await res.json();
       if (res.ok && data.questions) {
         localStorage.setItem('currentQuiz', JSON.stringify(data));
-        navigate('/quizzes');
+        navigate('/attempt');
       } else {
         setError(data.message || 'Could not generate quiz.');
       }
