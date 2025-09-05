@@ -38,7 +38,7 @@ const Chatbot = () => {
     setMessages([...messages, { from: 'user', text: input }]);
     setLoading(true);
     try {
-      const res = await fetch('/api/chatbot/ask', {
+      const res = await fetch('https://quiz-app-backend-fsd8.onrender.com/api/chatbot/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
