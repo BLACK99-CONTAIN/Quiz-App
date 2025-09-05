@@ -47,10 +47,31 @@ const QuizAttempt = () => {
         <Typography variant="h3" sx={{ fontWeight: 900, color: '#168f5c', mb: 2, textAlign: 'center' }}>{quiz.topic} Quiz</Typography>
         {quiz.questions.map((q, idx) => (
           <Box key={idx} sx={{ mb: 3 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>Q{idx + 1}: {q.question}</Typography>
-            {q.options && q.options.map((opt, oidx) => (
-              <Button key={oidx} variant={answers[idx] === String(oidx) ? "contained" : "outlined"} sx={{ m: 0.5, borderRadius: 3, background: answers[idx] === String(oidx) ? 'linear-gradient(90deg, #1db954 0%, #1aa260 100%)' : '#f5f7fa', color: answers[idx] === String(oidx) ? '#fff' : '#23243a', fontWeight: 600 }} onClick={() => handleChange(idx, String(oidx))}>{opt}</Button>
-            ))}
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+              Q{idx + 1}: {q.question}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {q.options && q.options.map((opt, oidx) => (
+                <Button
+                  key={oidx}
+                  variant={answers[idx] === String(oidx) ? "contained" : "outlined"}
+                  sx={{
+                    mb: 1,
+                    borderRadius: 3,
+                    background: answers[idx] === String(oidx)
+                      ? 'linear-gradient(90deg, #1db954 0%, #1aa260 100%)'
+                      : '#f5f7fa',
+                    color: answers[idx] === String(oidx) ? '#fff' : '#23243a',
+                    fontWeight: 600,
+                    textAlign: 'left',
+                    justifyContent: 'flex-start'
+                  }}
+                  onClick={() => handleChange(idx, String(oidx))}
+                >
+                  {String.fromCharCode(65 + oidx)}. {opt}
+                </Button>
+              ))}
+            </Box>
           </Box>
         ))}
         <Button
