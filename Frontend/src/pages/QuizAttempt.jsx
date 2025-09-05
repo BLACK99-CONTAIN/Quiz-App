@@ -29,7 +29,7 @@ const QuizAttempt = () => {
 
  const handleSubmit = async () => {
   localStorage.setItem('userAnswers', JSON.stringify(answers));
-  await fetch('/api/attempts', {
+  await fetch('https://quiz-app-backend-fsd8.onrender.com/api/attempts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
